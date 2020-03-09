@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<!-- version 0.01 of Flappy Bird, this will get a circle that falls and flies -->
+<html>
+ <head>
+	 <meta charset="utf-8"/>
+	 <title>Flappy</title>
+	 <style>
+		*{padding: 0; margin: 0;}
+		canvas {background: #999;}
+ </style>
+ </head>
+ <body>
+	<canvas id="myCanvas" width="480" height="320"></canvas>
+ </body>
+ <script>
+	var canvas = document.getElementById("myCanvas");
+	var ctx = canvas.getContext("2d");
+	//some bird variables
+
+	var bird = new Image();
+	bird.src = "bird.png";
+	var audioName = new Audio();
+	audioName.src = "wing.mp3";
+
+	ctx.drawImage(bird, 100, 150, 50, 50);
+
+	//starting point of bird
+	var x = canvas.width/3;
+	var y = canvas.height/2;
+	//speed of bird
+	var dy = 1.5;
+
+	//pipe variables
+	var gap = 85;
+	var lowPipe;
+	var pipe = []; //pipe array!
+	//setup the first pipe
+	//pipe[0]{
+		//x : canvas.width;
+		//y : 0;
+	//}
+
+
+	//awesome score
+	var score =0;
+
+	document.addEventListener("keypress", spaceHandler);
+
+	function spaceHandler(e) {
+		//we could use any specific key or even all the keys
+		console.log(e.keyCode)
+	if(e.keyCode == "32") {//fill in the bank with your chosen key code
+		//console.log(fly button hit")
+		if(y>10){ // only let the bird go up if it's not near the top.
+			dy -= 10; //top left corner of screen is 0,0
+		}
+	}
+}
+
+
+
+	function collisionDetection() {
+		//detect top and bottom of screen
+		//this feels sticky at the top
+		if(y<10){
+			y=11;
+		}
+		if(y>canvas.height-10){
+		y=canvas.height-11;
+		dy-=.25; //make it stop falling
+	}
+	//detect pipes
+
+}
+	function drawBird() {
+		//simple circle code
+		ctx.drawImage(bird, x, y, 50, 50);
+		ctx.beginPath();
+		ctx.fillStyle = "#0095DD";
+		ctx.fill();
+		ctx.closePath();
+		//make ir an image code
+		//bird.src="images/bird.png"
+	}
+
+
+	function drawScore() {
+		ctx.font = "16px Arial"
+		ctx.fillStyle = "#0096DD";
+		ctx.fillText("Score: "+score, 8, 20);
+	}
+
+	function draw() {
+		//background
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		//top pipe
+		//bottom pipe
+		//the fancy ground
+		// the score
+		drawScore();
+		//bird
+		drawBird();
+		//check some other stuff
+		collisionDetection();
+		//update the position of the bird
+		dy += .25; //make it go down... this gets fast
+		console.log(y);
+		y += dy;
+		//repeat :)
+		requestAnimationFrame(draw);
+	}
+
+	draw(); //this starts things we could put in the spaceHandler function...
+  </script>
+
+</html>
